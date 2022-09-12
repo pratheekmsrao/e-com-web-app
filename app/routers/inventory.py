@@ -12,11 +12,11 @@ router = APIRouter(prefix="/inventory", tags=["Inventory"])
 
 @router.get("/", response_model=List[schemas.InventoryProduct])
 def get_products(
-        db: Session = Depends(get_db),
-        current_user: object = Depends(oauth2.get_current_user),
-        limit: int = 10,
-        skip: int = 0,
-        search: Optional[str] = "",
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
+    limit: int = 10,
+    skip: int = 0,
+    search: Optional[str] = "",
 ) -> List[schemas.InventoryProduct]:
     """
     gets all products in the inventory
@@ -47,9 +47,9 @@ def get_products(
     "/", status_code=status.HTTP_201_CREATED, response_model=schemas.InventoryProduct
 )
 def create_product(
-        product: schemas.InventoryProduct,
-        db: Session = Depends(get_db),
-        current_user: object = Depends(oauth2.get_current_user),
+    product: schemas.InventoryProduct,
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
 ) -> schemas.InventoryProduct:
     """
     create new product in the inventory
@@ -71,12 +71,11 @@ def create_product(
     return new_product
 
 
-
 @router.get("/{id}", response_model=schemas.InventoryProduct)
 def get_product_by_id(
-        id: int,
-        db: Session = Depends(get_db),
-        current_user: object = Depends(oauth2.get_current_user),
+    id: int,
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
 ) -> schemas.InventoryProduct:
     """
     return product by id
@@ -101,9 +100,9 @@ def get_product_by_id(
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_product(
-        id: int,
-        db: Session = Depends(get_db),
-        current_user: object = Depends(oauth2.get_current_user),
+    id: int,
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
 ) -> Response:
     """
     deletes the product by id
@@ -139,10 +138,10 @@ def delete_product(
     status_code=status.HTTP_202_ACCEPTED,
 )
 def update_product(
-        id: int,
-        updated_product: schemas.InventoryProduct,
-        db: Session = Depends(get_db),
-        current_user: object = Depends(oauth2.get_current_user),
+    id: int,
+    updated_product: schemas.InventoryProduct,
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
 ) -> schemas.InventoryProduct:
     """
     update the product by id

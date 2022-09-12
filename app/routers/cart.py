@@ -12,7 +12,8 @@ router = APIRouter(prefix="/cart", tags=["Cart"])
 
 @router.get("/", response_model=List[schemas.CartProductOut])
 def get_cart_items(
-        db: Session = Depends(get_db), current_user: object = Depends(oauth2.get_current_user)
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
 ) -> List[schemas.CartProductOut]:
     """
     get list of cart items
@@ -30,9 +31,9 @@ def get_cart_items(
     "/", status_code=status.HTTP_201_CREATED, response_model=schemas.CartProductOut
 )
 def add_item_to_cart(
-        item: schemas.AddToCart,
-        db: Session = Depends(get_db),
-        current_user: object = Depends(oauth2.get_current_user),
+    item: schemas.AddToCart,
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
 ) -> schemas.CartProductOut:
     """
     add new product to the cart.
@@ -70,9 +71,9 @@ def add_item_to_cart(
 
     if product.inventory_count < item.quantity:
         raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=f"Ordered quantity is greater than inventory quantity, Enter quantity below {product.inventory_count+1}",
-            )
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Ordered quantity is greater than inventory quantity, Enter quantity below {product.inventory_count+1}",
+        )
 
     else:
         new_item = models.Cart(user_id=current_user.id, **item.dict())
@@ -85,9 +86,9 @@ def add_item_to_cart(
 
 @router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(
-        product_id: int,
-        db: Session = Depends(get_db),
-        current_user: object = Depends(oauth2.get_current_user),
+    product_id: int,
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
 ) -> Response:
     """
     delete product from the cart by product id
@@ -124,10 +125,10 @@ def delete_post(
     status_code=status.HTTP_202_ACCEPTED,
 )
 def update_cart(
-        product_id: int,
-        updated_item: schemas.UpdateCart,
-        db: Session = Depends(get_db),
-        current_user: object = Depends(oauth2.get_current_user),
+    product_id: int,
+    updated_item: schemas.UpdateCart,
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
 ) -> schemas.CartProductOut:
     """
     update product in the cart.
@@ -141,9 +142,7 @@ def update_cart(
     """
     product = (
         db.query(models.Product)
-        .filter(
-            models.Product.id == product_id, models.Product.inventory_count > 0
-        )
+        .filter(models.Product.id == product_id, models.Product.inventory_count > 0)
         .first()
     )
 
@@ -165,9 +164,9 @@ def update_cart(
         )
     if product.inventory_count < updated_item.quantity:
         raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=f"Update quantity is greater than inventory quantity, Enter quantity below {product.inventory_count+1}",
-            )
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Update quantity is greater than inventory quantity, Enter quantity below {product.inventory_count+1}",
+        )
 
     item_query.update(updated_item.dict(), synchronize_session=False)
 

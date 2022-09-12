@@ -12,7 +12,8 @@ router = APIRouter(prefix="/checkout", tags=["Check-out"])
 
 @router.post("/", status_code=status.HTTP_200_OK)
 def get_cart_items(
-        db: Session = Depends(get_db), current_user: object = Depends(oauth2.get_current_user)
+    db: Session = Depends(get_db),
+    current_user: object = Depends(oauth2.get_current_user),
 ) -> JSONResponse:
     """
     mocks the check-out, checks the item in cart for the logged in user.

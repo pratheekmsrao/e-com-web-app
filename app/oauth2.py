@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from sqlalchemy.orm import Session, Query
+from sqlalchemy.orm import Query, Session
 
 from . import database, models, schemas
 from .config import settings
@@ -20,7 +20,7 @@ ALGORITHM = settings.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
 
-def create_access_token(data: dict)->str:
+def create_access_token(data: dict) -> str:
     """
     created JWT token
     :param data: {"user_id": user.id, "user_name": user.username}
@@ -36,7 +36,9 @@ def create_access_token(data: dict)->str:
     return encoded_jwt
 
 
-def verify_access_token(token: str, credentials_exception: HTTPException)-> schemas.TokenData:
+def verify_access_token(
+    token: str, credentials_exception: HTTPException
+) -> schemas.TokenData:
     """
     Verify the JWT token for authenticity and expiration
     :param token: JWT token
@@ -58,7 +60,7 @@ def verify_access_token(token: str, credentials_exception: HTTPException)-> sche
 
 
 def get_current_user(
-        token: str = Depends(oauth2_scheme), db: Session = Depends(database.get_db)
+    token: str = Depends(oauth2_scheme), db: Session = Depends(database.get_db)
 ) -> object:
     """
     Returns current user logged-in user
@@ -77,5 +79,3 @@ def get_current_user(
     user = db.query(models.User).filter(models.User.id == token.id).first()
 
     return user
-
-

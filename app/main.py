@@ -7,6 +7,7 @@ from psycopg2.extras import RealDictCursor
 
 # from . import models
 from .config import settings
+
 # from .database import engine
 from .routers import auth, cart, checkout, inventory, product, user
 
@@ -36,5 +37,3 @@ app.include_router(checkout.router)
 @app.get("/")
 def root():
     return {"message": "Hello World !!!"}
-
-

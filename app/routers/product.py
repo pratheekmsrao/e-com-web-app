@@ -14,10 +14,10 @@ router = APIRouter(prefix="/products", tags=["Products"])
 
 @router.get("/", response_model=List[schemas.Product])
 def get_all_products(
-        db: Session = Depends(get_db),
-        limit: int = 10,
-        skip: int = 0,
-        search: Optional[str] = "",
+    db: Session = Depends(get_db),
+    limit: int = 10,
+    skip: int = 0,
+    search: Optional[str] = "",
 ) -> List[schemas.Product]:
     """
     List all the products
@@ -56,7 +56,9 @@ def get_all_category(db: Session = Depends(get_db)) -> Dict[str, List[List[Produ
 
 
 @router.get("/category/{category_name}", response_model=List[schemas.Product])
-def get_products_by_category(category_name: str, db: Session = Depends(get_db)) -> List[schemas.Product]:
+def get_products_by_category(
+    category_name: str, db: Session = Depends(get_db)
+) -> List[schemas.Product]:
     """
     return the list of all product for the specified category
     :return:
@@ -79,9 +81,10 @@ def get_products_by_category(category_name: str, db: Session = Depends(get_db)) 
     return category
 
 
-
 @router.get("/sub_category/{sub_category_name}", response_model=List[schemas.Product])
-def get_products_by_sub_category(sub_category_name: str, db: Session = Depends(get_db)) -> List[schemas.Product]:
+def get_products_by_sub_category(
+    sub_category_name: str, db: Session = Depends(get_db)
+) -> List[schemas.Product]:
     """
     return all the products for a given sub-category
     :param sub_category_name: name of the sub_category_name
@@ -104,9 +107,10 @@ def get_products_by_sub_category(sub_category_name: str, db: Session = Depends(g
     return sub_category
 
 
-
 @router.get("/sub_category", response_model=Dict[str, Union[str, List[str]]])
-def get_sub_category_for_category(category: str = "", db: Session = Depends(get_db)) -> Dict[str, Union[str, List[str]]]:
+def get_sub_category_for_category(
+    category: str = "", db: Session = Depends(get_db)
+) -> Dict[str, Union[str, List[str]]]:
     """
     return the list of all the sub-categories for a given category
     :param category: name of the category
@@ -127,7 +131,6 @@ def get_sub_category_for_category(category: str = "", db: Session = Depends(get_
         )
     # return {'sub_category': sub_category_l}
     return {"category": category, "sub_category": sub_category_l}
-
 
 
 @router.get("/{id}", response_model=schemas.Product)

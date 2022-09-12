@@ -11,7 +11,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
 def create_user(
-        user: schemas.UserCreate, db: Session = Depends(get_db)
+    user: schemas.UserCreate, db: Session = Depends(get_db)
 ) -> schemas.UserOut:  # conn= Depends(get_db)
     """
     creates new user
@@ -30,7 +30,7 @@ def create_user(
 
     return new_user
 
-    #Demo: create user with raw sql
+    # Demo: create user with raw sql
     # cursor = conn.cursor()
     # cursor.execute("""INSERT INTO users (username, password) VALUES (%s, %s) RETURNING * """,
     #                (user.username, user.password))
@@ -40,7 +40,9 @@ def create_user(
 
 
 @router.get("/{id}", response_model=schemas.UserOut)
-def get_user(id: int, db: Session = Depends(get_db)) -> schemas.UserOut:  # conn= Depends(get_db)
+def get_user(
+    id: int, db: Session = Depends(get_db)
+) -> schemas.UserOut:  # conn= Depends(get_db)
     """
     Returns user based on the user_id
     :param id: user id of the user
@@ -54,7 +56,7 @@ def get_user(id: int, db: Session = Depends(get_db)) -> schemas.UserOut:  # conn
             detail=f"User with id: {id} does not exist",
         )
     return user
-    #Demo: get user with raw sql
+    # Demo: get user with raw sql
     # cursor = conn.cursor()
     # cursor.execute("""SELECT * FROM users WHERE id = %s """, (str(id),))
     # user = cursor.fetchone()

@@ -8,6 +8,7 @@ from .database import Base
 
 class Product(Base):
     """Products table SqlAlchemy model"""
+
     __tablename__ = "products"
 
     id = Column(Integer, primary_key=True, nullable=False)
@@ -28,6 +29,7 @@ class Product(Base):
 
 class User(Base):
     """Users table SqlAlchemy model"""
+
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, nullable=False)
     username = Column(String, nullable=False, unique=True)
@@ -39,6 +41,7 @@ class User(Base):
 
 class Cart(Base):
     """Cart table SqlAlchemy model"""
+
     __tablename__ = "cart"
     id = Column(Integer, primary_key=True, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))

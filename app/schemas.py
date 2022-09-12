@@ -91,8 +91,6 @@ class AddToCart(BaseModel):
         orm_mode = True
 
 
-
-
 class UpdateCart(BaseModel):
     quantity: int
 
@@ -111,6 +109,3 @@ class CartProductOut(BaseModel):
     # to convert orm response to dict and pydantic model
     class Config:
         orm_mode = True
-
-
-
